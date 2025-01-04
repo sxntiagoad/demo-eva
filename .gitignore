@@ -1,5 +1,6 @@
-
-instace/
+__pycache__/
+*.pyc
+*.pyo
+instance/
 .venv/
 .env
-

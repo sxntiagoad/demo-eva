@@ -6,8 +6,8 @@ from app.models import User
 
 bp = Blueprint('auth', __name__)
 
-@bp.route('/register', methods=['GET', 'POST'])
-def register():
+@bp.route('/', methods=['GET', 'POST'])
+def register(): 
     form = RegistrationForm()
 
     if form.validate_on_submit():
