@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Registro para DEMO de EVA{% endblock %}</title>
+    <link rel="icon" href="{{ url_for('static', filename='images/logo_eva.png') }}" type="image/png">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body class="bg-blue-50 min-h-screen">
+    <nav class="bg-white shadow-lg">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex justify-between h-16 items-center">
+                <div class="flex items-center">
+                    <img src="{{ url_for('static', filename='images/logo_eva.png') }}" alt="Logo" class="h-10 mr-3">
+                    <a href="{{ url_for('auth.register') }}" class="text-xl font-bold text-gray-800">
+                        Registro de EVA
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container mx-auto px-4 py-8">
+        <div class="text-center mb-8">
+            <h1 class="text-3xl font-bold text-gray-800">¡Regístrate para obtener tu demo de EVA!</h1>
+            <p class="mt-2 text-gray-600">Moderniza tu empresa y lleva tu negocio al siguiente nivel.</p>
+        </div>
+
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="bg-white shadow-lg mt-8">
+        <div class="max-w-7xl mx-auto px-4 py-4 text-center">
+            <p class="text-gray-600">© 2023 EVA. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
