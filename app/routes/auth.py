@@ -34,7 +34,6 @@ def register():
             db.session.commit()
 
             try:
-                # Usar las credenciales del entorno directamente
                 session = boto3.Session(
                     aws_access_key_id=os.getenv('AWS_ACCESS_KEY_ID'),
                     aws_secret_access_key=os.getenv('AWS_SECRET_ACCESS_KEY'),
@@ -43,15 +42,19 @@ def register():
                 
                 s3_client = session.client('s3')
                 
-                # Generar URL presignada
+                # Generar URL presignada con Content-Disposition
                 download_url = s3_client.generate_presigned_url('get_object',
                     Params={
                         'Bucket': os.getenv('AWS_BUCKET_NAME', 'apk-eva'),
-                        'Key': 'app_release.apk'
+                        'Key': 'app_release.apk',
+                        'ResponseContentDisposition': 'attachment; filename="app_release.apk"'
                     },
                     ExpiresIn=3600
                 )
+                
+                current_app.logger.info(f"URL de descarga generada: {download_url}")
                 return render_template('auth/success.html', token=token, download_url=download_url)
+                
             except Exception as e:
                 current_app.logger.error(f"Error con S3: {str(e)}")
                 return render_template('auth/success.html', token=token)
