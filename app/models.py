@@ -2,6 +2,7 @@ from app import db
 from datetime import datetime, timedelta
 import jwt
 from app.config import Config
+import secrets
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -15,16 +16,11 @@ class User(db.Model):
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
     def generate_token(self):
-        expiration = datetime.utcnow() + Config.TOKEN_EXPIRATION
-        token = jwt.encode(
-            {
-                'user_id': self.id,
-                'exp': expiration,
-                'iat': datetime.utcnow()
-            },
-            Config.SECRET_KEY,
-            algorithm='HS256'
-        )
+        """Genera un token personalizado con formato EVA-XXXXXXXX"""
+        prefix = "EVA"
+        random_part = secrets.token_urlsafe(6)[:8]  # Genera 8 caracteres aleatorios
+        token = f"{prefix}-{random_part}"
+        
         self.token = token
-        self.token_expiration = expiration
+        self.token_expiration = datetime.utcnow() + Config.TOKEN_EXPIRATION
         return token
