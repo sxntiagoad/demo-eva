@@ -16,9 +16,9 @@ class User(db.Model):
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
     def generate_token(self):
-        """Genera un token personalizado con formato EVA-XXXXXXXX"""
+        """Genera un token personalizado con formato EVA-XXXXXXXXXXXXXXXX"""
         prefix = "EVA"
-        random_part = secrets.token_urlsafe(6)[:8]  # Genera 8 caracteres aleatorios
+        random_part = secrets.token_urlsafe(16)[:20]  # Genera 20 caracteres aleatorios
         token = f"{prefix}-{random_part}"
         
         self.token = token
