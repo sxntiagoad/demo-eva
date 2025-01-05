@@ -1,6 +1,6 @@
 from app import db
 from datetime import datetime, timedelta
-import jwt 
+import jwt
 from app.config import Config
 
 class User(db.Model):
