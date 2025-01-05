@@ -18,7 +18,7 @@ def register():
         device_info = request.headers.get('User-Agent')
 
         if not can_register(ip_address, device_info):
-            flash('You have already registered recently. Please try again later.', 'error')
+            flash('Te registraste recientemente. Por favor, inténtalo de nuevo más tarde.', 'error')
             return redirect(url_for('auth.register'))
         user = User(
             username=form.username.data,
@@ -62,7 +62,7 @@ def register():
         except Exception as e:
             db.session.rollback()
             current_app.logger.error(f"Error durante registro: {str(e)}")
-            flash('An error occurred during registration. Please try again.', 'error')
+            flash('Un error ocurrió durante el registro. Por favor, inténtalo de nuevo.', 'error')
             return redirect(url_for('auth.register'))
     
     return render_template('auth/register.html', form=form)
