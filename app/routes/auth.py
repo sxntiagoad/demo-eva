@@ -5,6 +5,7 @@ from app.utils import can_register
 from app.models import User
 import boto3
 from botocore.exceptions import ClientError
+import os
 
 bp = Blueprint('auth', __name__)
 
@@ -32,25 +33,26 @@ def register():
             token = user.generate_token()
             db.session.commit()
 
-            # Generar URL de descarga de S3
-            s3_client = boto3.client(
-                's3',
-                aws_access_key_id=current_app.config['AWS_ACCESS_KEY'],
-                aws_secret_access_key=current_app.config['AWS_SECRET_KEY'],
-                region_name=current_app.config['AWS_REGION']
-            )
-
             try:
-                # Generar URL presignada que expira en 1 hora
+                # Usar las credenciales del entorno directamente
+                session = boto3.Session(
+                    aws_access_key_id=os.getenv('AWS_ACCESS_KEY_ID'),
+                    aws_secret_access_key=os.getenv('AWS_SECRET_ACCESS_KEY'),
+                    region_name=os.getenv('AWS_REGION', 'us-east-1')
+                )
+                
+                s3_client = session.client('s3')
+                
+                # Generar URL presignada
                 download_url = s3_client.generate_presigned_url('get_object',
                     Params={
-                        'Bucket': 'apk-eva',
+                        'Bucket': os.getenv('AWS_BUCKET_NAME', 'apk-eva'),
                         'Key': 'app_release.apk'
                     },
-                    ExpiresIn=3600  # URL válida por 1 hora
+                    ExpiresIn=3600
                 )
                 return render_template('auth/success.html', token=token, download_url=download_url)
-            except ClientError as e:
+            except Exception as e:
                 current_app.logger.error(f"Error con S3: {str(e)}")
                 return render_template('auth/success.html', token=token)
 
