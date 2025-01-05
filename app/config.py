@@ -10,7 +10,7 @@ class Config:
     if SQLALCHEMY_DATABASE_URI and SQLALCHEMY_DATABASE_URI.startswith("postgres://"):
         SQLALCHEMY_DATABASE_URI = SQLALCHEMY_DATABASE_URI.replace("postgres://", "postgresql://", 1)
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-    TOKEN_EXPIRATION = timedelta(days=30)
+    TOKEN_EXPIRATION = timedelta(days=2)
     MAX_CONTENT_LENGTH = 16 * 1024 * 1024  # 16MB max-limit
     WTF_CSRF_ENABLED = True
     
