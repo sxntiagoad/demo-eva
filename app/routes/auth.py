@@ -3,6 +3,8 @@ from app import db, limiter
 from app.forms import RegistrationForm
 from app.utils import can_register
 from app.models import User
+import boto3
+from botocore.exceptions import ClientError
 
 bp = Blueprint('auth', __name__)
 
@@ -30,10 +32,31 @@ def register():
             token = user.generate_token()
             db.session.commit()
 
-            return render_template('auth/success.html', token=token)
+            # Generar URL de descarga de S3
+            s3_client = boto3.client(
+                's3',
+                aws_access_key_id=current_app.config['AWS_ACCESS_KEY'],
+                aws_secret_access_key=current_app.config['AWS_SECRET_KEY'],
+                region_name=current_app.config['AWS_REGION']
+            )
+
+            try:
+                # Generar URL presignada que expira en 1 hora
+                download_url = s3_client.generate_presigned_url('get_object',
+                    Params={
+                        'Bucket': 'apk-eva',
+                        'Key': 'app_release.apk'
+                    },
+                    ExpiresIn=3600  # URL válida por 1 hora
+                )
+                return render_template('auth/success.html', token=token, download_url=download_url)
+            except ClientError as e:
+                current_app.logger.error(f"Error con S3: {str(e)}")
+                return render_template('auth/success.html', token=token)
+
         except Exception as e:
             db.session.rollback()
-            current_app.logger.error(f"Error during registration: {str(e)}")
+            current_app.logger.error(f"Error durante registro: {str(e)}")
             flash('An error occurred during registration. Please try again.', 'error')
             return redirect(url_for('auth.register'))
     
