@@ -3,7 +3,6 @@ from app.models import User
 from app import db
 
 def can_register(ip_address, device_info):
-    """Check if registration is allowed based on IP and device"""
     # two_days_ago = datetime.utcnow() - timedelta(days=2)
     
     # # Check IP address
