@@ -47,7 +47,7 @@ def register():
                     Params={
                         'Bucket': os.getenv('AWS_BUCKET_NAME', 'apk-eva'),
                         'Key': 'app-release.apk',
-                        'ResponseContentDisposition': 'attachment; filename="app_release.apk"'
+                        'ResponseContentDisposition': 'attachment; filename="app-release.apk"'
                     },
                     ExpiresIn=3600
                 )
