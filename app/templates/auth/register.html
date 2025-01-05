@@ -6,7 +6,7 @@
 <div class="max-w-md mx-auto bg-white rounded-lg shadow-md p-6 mt-10">
     <h1 class="text-2xl font-bold text-center mb-6 text-gray-800">Registro de Usuario</h1>
     
-    <form method="POST" class="space-y-4">
+    <form method="POST" class="space-y-4" id="registerForm">
         {{ form.csrf_token }}
         
         <div>
@@ -40,10 +40,40 @@
         </div>
         
         <div>
-            {{ form.submit(class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500") }}
+            {{ form.submit(class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500", onclick="showLoading()") }}
         </div>
     </form>
-    
-    
 </div>
+
+<!-- Loading Overlay -->
+<div id="loadingOverlay" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden flex items-center justify-center z-50">
+    <div class="bg-white p-6 rounded-lg shadow-xl flex flex-col items-center">
+        <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mb-4"></div>
+        <p class="text-gray-700">Procesando registro...</p>
+    </div>
+</div>
+
+<script>
+function showLoading() {
+    // Validar el formulario antes de mostrar el loading
+    const form = document.getElementById('registerForm');
+    if (form.checkValidity()) {
+        const loadingOverlay = document.getElementById('loadingOverlay');
+        loadingOverlay.classList.remove('hidden');
+        loadingOverlay.classList.add('flex');
+    }
+}
+
+// Ocultar el loading si hay error en el formulario
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('registerForm');
+    form.addEventListener('submit', function(event) {
+        if (!form.checkValidity()) {
+            const loadingOverlay = document.getElementById('loadingOverlay');
+            loadingOverlay.classList.add('hidden');
+            loadingOverlay.classList.remove('flex');
+        }
+    });
+});
+</script>
 {% endblock %}
