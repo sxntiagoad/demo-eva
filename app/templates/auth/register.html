@@ -3,59 +3,58 @@
 {% block title %}Registro de Usuario{% endblock %}
 
 {% block content %}
-<div class="max-w-md mx-auto bg-white rounded-lg shadow-md p-6 mt-10">
-    <h1 class="text-2xl font-bold text-center mb-6 text-gray-800">Registro de Usuario</h1>
+<div class="max-w-md mx-auto bg-white rounded-xl shadow-lg p-4 sm:p-8 mt-4 sm:mt-10">
+    <h1 class="text-xl sm:text-2xl font-bold text-center mb-4 sm:mb-6 text-gray-800">Registro de Usuario</h1>
     
-    <form method="POST" class="space-y-4" id="registerForm">
+    <form method="POST" class="space-y-4 sm:space-y-6" id="registerForm">
         {{ form.csrf_token }}
         
         <div>
-            <label for="username" class="block text-sm font-medium text-gray-700">Nombre de Usuario</label>
-            {{ form.username(class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200") }}
+            <label for="username" class="block text-sm sm:text-base font-medium text-gray-700">Nombre de Usuario</label>
+            {{ form.username(class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 text-sm sm:text-base py-2 sm:py-3") }}
             {% if form.username.errors %}
                 {% for error in form.username.errors %}
-                    <p class="text-red-500 text-xs mt-1">{{ error }}</p>
+                    <p class="text-red-500 text-xs sm:text-sm mt-1">{{ error }}</p>
                 {% endfor %}
             {% endif %}
         </div>
         
         <div>
-            <label for="email" class="block text-sm font-medium text-gray-700">Correo Electrónico</label>
-            {{ form.email(class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200") }}
+            <label for="email" class="block text-sm sm:text-base font-medium text-gray-700">Correo Electrónico</label>
+            {{ form.email(class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 text-sm sm:text-base py-2 sm:py-3") }}
             {% if form.email.errors %}
                 {% for error in form.email.errors %}
-                    <p class="text-red-500 text-xs mt-1">{{ error }}</p>
+                    <p class="text-red-500 text-xs sm:text-sm mt-1">{{ error }}</p>
                 {% endfor %}
             {% endif %}
         </div>
         
         <div>
-            <label for="phone" class="block text-sm font-medium text-gray-700">Teléfono</label>
-            {{ form.phone(class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200") }}
+            <label for="phone" class="block text-sm sm:text-base font-medium text-gray-700">Teléfono</label>
+            {{ form.phone(class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 text-sm sm:text-base py-2 sm:py-3") }}
             {% if form.phone.errors %}
                 {% for error in form.phone.errors %}
-                    <p class="text-red-500 text-xs mt-1">{{ error }}</p>
+                    <p class="text-red-500 text-xs sm:text-sm mt-1">{{ error }}</p>
                 {% endfor %}
             {% endif %}
         </div>
         
-        <div>
-            {{ form.submit(class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500", onclick="showLoading()") }}
+        <div class="pt-2 sm:pt-4">
+            {{ form.submit(class="w-full flex justify-center py-3 sm:py-4 px-4 sm:px-6 border border-transparent rounded-xl shadow-sm text-sm sm:text-base font-medium text-white bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-200 transform hover:scale-[1.02]", onclick="showLoading()") }}
         </div>
     </form>
 </div>
 
 <!-- Loading Overlay -->
-<div id="loadingOverlay" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden flex items-center justify-center z-50">
-    <div class="bg-white p-6 rounded-lg shadow-xl flex flex-col items-center">
-        <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mb-4"></div>
-        <p class="text-gray-700">Procesando registro...</p>
+<div id="loadingOverlay" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden items-center justify-center z-50">
+    <div class="bg-white p-6 rounded-xl shadow-xl flex flex-col items-center">
+        <div class="animate-spin rounded-full h-10 w-10 sm:h-12 sm:w-12 border-b-2 border-blue-600 mb-3 sm:mb-4"></div>
+        <p class="text-gray-700 text-sm sm:text-base">Procesando registro...</p>
     </div>
 </div>
 
 <script>
 function showLoading() {
-    // Validar el formulario antes de mostrar el loading
     const form = document.getElementById('registerForm');
     if (form.checkValidity()) {
         const loadingOverlay = document.getElementById('loadingOverlay');
@@ -64,7 +63,6 @@ function showLoading() {
     }
 }
 
-// Ocultar el loading si hay error en el formulario
 document.addEventListener('DOMContentLoaded', function() {
     const form = document.getElementById('registerForm');
     form.addEventListener('submit', function(event) {

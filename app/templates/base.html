@@ -10,11 +10,11 @@
 </head>
 <body class="bg-blue-50 min-h-screen">
     <nav class="bg-white shadow-lg">
-        <div class="max-w-7xl mx-auto px-4">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16 items-center">
                 <div class="flex items-center">
-                    <img src="{{ url_for('static', filename='images/logo_eva.png') }}" alt="Logo" class="h-10 mr-3">
-                    <a href="{{ url_for('auth.register') }}" class="text-xl font-bold text-gray-800">
+                    <img src="{{ url_for('static', filename='images/logo_eva.png') }}" alt="Logo" class="h-8 sm:h-10 mr-2 sm:mr-3">
+                    <a href="{{ url_for('auth.register') }}" class="text-lg sm:text-xl font-bold text-gray-800">
                         Registro de EVA
                     </a>
                 </div>
@@ -22,16 +22,16 @@
         </div>
     </nav>
 
-    <main class="container mx-auto px-4 py-8">
-        <div class="text-center mb-8">
-            <h1 class="text-3xl font-bold text-gray-800">¡Regístrate para obtener tu demo de EVA!</h1>
-            <p class="mt-2 text-gray-600">Moderniza tu empresa y lleva tu negocio al siguiente nivel.</p>
+    <main class="container mx-auto px-4 py-6 sm:py-8">
+        <div class="text-center mb-6 sm:mb-8">
+            <h1 class="text-2xl sm:text-3xl font-bold text-gray-800">¡Regístrate para obtener tu demo de EVA!</h1>
+            <p class="mt-2 text-sm sm:text-base text-gray-600">Moderniza tu empresa y lleva tu negocio al siguiente nivel.</p>
         </div>
 
         {% with messages = get_flashed_messages() %}
             {% if messages %}
                 {% for message in messages %}
-                    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4">
+                    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4 mx-4 sm:mx-auto max-w-md">
                         {{ message }}
                     </div>
                 {% endfor %}
@@ -42,7 +42,7 @@
     </main>
 
     <footer class="bg-white shadow-lg mt-8">
-        <div class="max-w-7xl mx-auto px-4 py-4 text-center">
+        <div class="max-w-7xl mx-auto px-4 py-4 text-center text-sm sm:text-base">
             <p class="text-gray-600">© 2023 EVA. Todos los derechos reservados.</p>
         </div>
     </footer>
