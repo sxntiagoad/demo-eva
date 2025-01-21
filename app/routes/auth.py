@@ -66,3 +66,42 @@ def register():
             return redirect(url_for('auth.register'))
     
     return render_template('auth/register.html', form=form)
+
+@bp.route('/api/verify-token', methods=['POST'])
+def verify_token():
+    try:
+        if not request.is_json:
+            return jsonify({
+                'success': False,
+                'error': 'Se requiere contenido JSON'
+            }), 400
+
+        data = request.get_json()
+        
+        if not data or 'token' not in data:
+            return jsonify({
+                'success': False,
+                'error': 'Token no proporcionado'
+            }), 400
+
+        token = data['token']
+        user = User.verify_token(token)  # Usando el nuevo método
+
+        if not user:
+            return jsonify({
+                'success': False,
+                'error': 'Token inválido o expirado'
+            }), 401
+
+        return jsonify({
+            'success': True,
+            'message': 'Token válido',
+            'data': user.to_dict()  # Usando el nuevo método
+        }), 200
+
+    except Exception as e:
+        current_app.logger.error(f"Error verificando token: {str(e)}")
+        return jsonify({
+            'success': False,
+            'error': 'Error interno del servidor'
+        }), 500
