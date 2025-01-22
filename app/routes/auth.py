@@ -46,8 +46,8 @@ def register():
                 download_url = s3_client.generate_presigned_url('get_object',
                     Params={
                         'Bucket': os.getenv('AWS_BUCKET_NAME', 'apk-eva'),
-                        'Key': 'app-release.apk',
-                        'ResponseContentDisposition': 'attachment; filename="app-release.apk"'
+                        'Key': 'app-demo.apk',
+                        'ResponseContentDisposition': 'attachment; filename="app-demo.apk"'
                     },
                     ExpiresIn=3600
                 )
