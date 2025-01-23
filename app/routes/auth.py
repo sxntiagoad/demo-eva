@@ -6,6 +6,7 @@ from app.models import User
 import boto3
 from botocore.exceptions import ClientError
 import os
+from flask_cors import cross_origin
 
 bp = Blueprint('auth', __name__)
 
@@ -68,13 +69,14 @@ def register():
     return render_template('auth/register.html', form=form)
 
 @bp.route('/api/verify-token', methods=['POST'])
+@cross_origin()
 def verify_token():
     try:
         if not request.is_json:
             return jsonify({
                 'success': False,
                 'error': 'Se requiere contenido JSON'
-            }), 400
+            }), 400, {'Access-Control-Allow-Origin': '*'}
 
         data = request.get_json()
         
