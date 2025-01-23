@@ -30,6 +30,26 @@
         <p id="copyMessage" class="text-xs sm:text-sm text-blue-600 hidden transition-opacity duration-300">¡Token copiado al portapapeles!</p>
     </div>
 
+    <!-- Web Demo Section -->
+    <div class="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-4 sm:p-6 space-y-3">
+        <h3 class="text-base sm:text-lg font-semibold text-gray-900">Demo Web</h3>
+        <div class="flex items-center justify-between bg-white p-3 sm:p-4 rounded-lg border border-blue-100 shadow-sm">
+            <code id="webUrlText" class="text-xs sm:text-sm text-gray-700 font-mono break-all">https://eva-demo-web.web.app/</code>
+            <button onclick="copyWebUrl()" class="ml-2 sm:ml-3 p-2 text-blue-600 hover:text-blue-700 transition-colors duration-200 flex-shrink-0">
+                <span class="sr-only">Copiar URL</span>
+                <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"></path>
+                </svg>
+            </button>
+        </div>
+        <p id="copyWebMessage" class="text-xs sm:text-sm text-blue-600 hidden transition-opacity duration-300">¡URL copiada al portapapeles!</p>
+        <a href="https://eva-demo-web.web.app/" 
+           target="_blank" 
+           class="block w-full text-center py-2 sm:py-3 px-4 rounded-lg text-blue-600 hover:bg-blue-50 transition-all duration-200 text-sm sm:text-base border border-blue-200">
+            Abrir Demo Web
+        </a>
+    </div>
+
     <!-- Download Section -->
     <div class="space-y-3 sm:space-y-4">
         <a href="{{ download_url }}" 
@@ -93,6 +113,32 @@ function fallbackCopyText(text) {
 
 function showCopyMessage() {
     const copyMessage = document.getElementById('copyMessage');
+    copyMessage.classList.remove('hidden');
+    copyMessage.classList.add('opacity-100');
+    setTimeout(() => {
+        copyMessage.classList.add('opacity-0');
+        setTimeout(() => {
+            copyMessage.classList.add('hidden');
+        }, 300);
+    }, 2000);
+}
+
+function copyWebUrl() {
+    const webUrl = document.getElementById('webUrlText').innerText;
+    if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(webUrl).then(() => {
+            showWebCopyMessage();
+        }).catch(err => {
+            console.error('Error al copiar: ', err);
+            fallbackCopyText(webUrl);
+        });
+    } else {
+        fallbackCopyText(webUrl);
+    }
+}
+
+function showWebCopyMessage() {
+    const copyMessage = document.getElementById('copyWebMessage');
     copyMessage.classList.remove('hidden');
     copyMessage.classList.add('opacity-100');
     setTimeout(() => {
